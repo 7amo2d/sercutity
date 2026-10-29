@@ -1,0 +1,16 @@
+{
+  "name": "discord-presence-studio",
+  "version": "2.2.1",
+  "description": "Enterprise Discord Rich Presence Engine v2.2.1 Powered By TC Team - 7amo",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "ws": "^8.17.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presence Studio v2.2.1 - Powered By TC Team - 7amo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #07080b;
+            color: #f2f3f5;
+        }
+        .discord-panel {
+            background-color: #11131c;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .discord-embed-bg {
+            background-color: #181923;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #07080b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #26293b;
+            border-radius: 999px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[#07080b] text-[#f2f3f5]">
+
+    <!-- Header Navigation -->
+    <nav class="discord-panel border-b border-white/5 px-6 py-4 sticky top-0 z-40 flex items-center justify-between shadow-xl">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-emerald-500 flex items-center justify-center text-white text-xl shadow">
+                <i class="fa-brands fa-discord"></i>
+            </div>
+            <div>
+                <h1 class="font-black text-lg text-white tracking-wide flex items-center gap-2">
+                    <span>Presence Studio</span>
+                    <span class="bg-indigo-600 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full text-white">v2.2.1</span>
+                </h1>
+                <p class="text-xs text-gray-400">إدارة النشاط والحضور أونلاين على ديسكورد</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-3">
+            <span class="text-xs font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-500/30 px-3 py-1.5 rounded-xl flex items-center gap-1.5">
+                <i class="fa-solid fa-shield-halved text-xs"></i> المحرك أونلاين 24/7
+            </span>
+        </div>
+    </nav>
+
+    <!-- Workspace -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- Live Realistic Discord Preview Column (Placed on Left - 5 Cols) -->
+        <div class="lg:col-span-5 space-y-6 order-1 lg:order-1">
+            <div class="discord-panel p-5 rounded-3xl border border-white/10 shadow-2xl space-y-4 sticky top-24">
+                <div class="flex items-center justify-between border-b border-white/10 pb-2">
+                    <h2 class="text-xs font-extrabold text-gray-400 uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-desktop text-indigo-400"></i> المعاينة الحية للحساب (Live Preview)
+                    </h2>
+                    <span id="account-status-indicator" class="text-xs text-gray-400 font-bold flex items-center gap-1">
+                        <span class="w-2 h-2 rounded-full bg-gray-500"></span> غير مفحوص
+                    </span>
+                </div>
+
+                <!-- Realistic Discord Dark Profile Card -->
+                <div class="discord-embed-bg rounded-2xl overflow-hidden shadow-2xl border border-white/10 font-sans">
+                    <!-- Accent Banner -->
+                    <div id="prev-banner-bg" class="h-28 bg-[#5865f2] relative overflow-hidden">
+                        <img id="prev-banner" src="https://i.imgur.com/v8F9J2n.png" class="w-full h-full object-cover">
+                    </div>
+
+                    <div class="px-4 pb-4 relative">
+                        <div class="relative -mt-10 mb-3 inline-block">
+                            <img id="prev-avatar" src="https://cdn.discordapp.com/embed/avatars/0.png" class="w-20 h-20 rounded-full border-4 border-[#181923] bg-[#181923] object-cover shadow-2xl">
+                            <!-- Status Badge Dot -->
+                            <div id="prev-status-badge" class="absolute bottom-0 right-0 w-6 h-6 rounded-full border-4 border-[#181923] bg-[#23a55a] flex items-center justify-center text-[10px] text-white">
+                                <i id="prev-badge-icon" class="fa-solid fa-trophy"></i>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <h3 class="text-white font-black text-base flex items-center gap-1.5">
+                                <span id="prev-username">الحساب الشغال</span>
+                                <span class="bg-[#5865f2] text-[9px] px-1.5 py-0.5 rounded text-white font-bold" id="prev-verified-badge">VERIFIED</span>
+                            </h3>
+                            <p class="text-gray-400 text-xs" id="prev-tag">@account_user</p>
+                        </div>
+
+                        <div class="h-px bg-white/5 my-3"></div>
+
+                        <!-- Discord Rich Presence Activity Box -->
+                        <div class="bg-[#232534] p-3.5 rounded-xl border border-white/5 space-y-3 shadow-inner">
+                            <div class="flex items-center justify-between text-xs font-bold text-indigo-300">
+                                <span id="prev-header-text" class="flex items-center gap-1.5 text-[11px]">
+                                    <i id="prev-header-icon" class="fa-solid fa-trophy text-indigo-400 text-sm"></i> Competing
+                                </span>
+                            </div>
+
+                            <div class="flex gap-3 items-center">
+                                <div id="prev-image-container" class="relative shrink-0">
+                                    <img id="prev-large-img" src="https://i.imgur.com/3fJzL1D.gif" class="w-16 h-16 rounded-xl object-cover bg-black border border-white/10">
+                                    <img id="prev-small-img" src="https://i.imgur.com/v8F9J2n.png" class="w-6 h-6 rounded-full border-2 border-[#232534] absolute -bottom-1 -right-1 bg-black object-cover">
+                                </div>
+
+                                <div class="space-y-0.5 text-xs overflow-hidden w-full">
+                                    <p id="prev-name" class="font-extrabold text-white truncate text-sm">VALORANT Esports</p>
+                                    <p id="prev-details" class="text-gray-300 font-medium truncate">Tournament Finals - Grand Match</p>
+                                    <p id="prev-state" class="text-gray-400 text-[11px] truncate">Competing in Playoffs</p>
+                                    <p id="prev-party" class="text-gray-400 text-[10px] font-bold">Party (4 of 5)</p>
+                                    <p id="prev-timer" class="text-indigo-300 font-mono text-[10px] flex items-center gap-1 mt-1 font-bold">
+                                        <i class="fa-regular fa-clock text-amber-400"></i> <span id="elapsed-time">00:00:00</span> elapsed
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Buttons Mockup -->
+                            <div class="space-y-1.5 pt-1" id="prev-buttons-box">
+                                <button id="prev-btn1" class="w-full bg-[#323548] text-white py-1.5 rounded-lg text-xs font-bold border border-white/5 truncate">سيرفر الديسكورد</button>
+                                <button id="prev-btn2" class="w-full bg-[#323548] text-white py-1.5 rounded-lg text-xs font-bold border border-white/5 truncate">قناة اليوتيوب</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Server Response Notification Box -->
+            <div id="status-box" class="discord-panel p-4 rounded-2xl border border-white/10 hidden space-y-1">
+                <span id="status-title" class="text-xs font-extrabold block"></span>
+                <p id="status-desc" class="text-xs text-gray-300"></p>
+            </div>
+        </div>
+
+        <!-- Input Controls Form (Placed on Right - 7 Cols) -->
+        <div class="lg:col-span-7 space-y-6 order-2 lg:order-2">
+            <div class="discord-panel p-6 rounded-3xl space-y-5 border border-white/10 shadow-2xl">
+                
+                <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                    <h2 class="text-sm font-extrabold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-sliders text-indigo-400"></i> فحص الرمز وإعداد النشاط
+                    </h2>
+                    <span class="text-[11px] font-bold text-indigo-300 bg-indigo-950/60 px-2.5 py-1 rounded-lg border border-indigo-500/30">
+                        Powered By TC Team - 7amo
+                    </span>
+                </div>
+
+                <!-- Secure Token Input with Real-Time Verification Button -->
+                <div>
+                    <div class="flex items-center justify-between mb-1.5">
+                        <label class="text-xs font-extrabold text-gray-300">رمز الحساب (User Token)</label>
+                        <span class="text-[10px] text-emerald-400 font-bold flex items-center gap-1">
+                            <i class="fa-solid fa-lock"></i> تشفير آمن وحماية 100%
+                        </span>
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="password" id="input-token" placeholder="أدخل رمز حسابك هنا..." 
+                            class="w-full bg-[#07080b] text-amber-200 text-xs font-mono rounded-xl p-3 border border-white/10 focus:outline-none focus:border-indigo-500 transition"
+                            onchange="verifyAccountToken()">
+                        <button onclick="verifyAccountToken()" class="bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold px-4 rounded-xl shrink-0 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-magnifying-glass"></i> فحص الحساب
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Activity Type Selector -->
+                <div class="bg-[#07080b]/60 p-4 rounded-2xl border border-white/5 space-y-3">
+                    <label class="block text-xs font-extrabold text-indigo-300">نوع النشاط (Activity Type)</label>
+                    <div class="grid grid-cols-2 sm:grid-cols-6 gap-2">
+                        <button onclick="setActivityType('COMPETING')" id="type-btn-COMPETING" class="p-3 rounded-xl border text-xs font-bold transition flex flex-col items-center gap-1.5 bg-indigo-600 border-indigo-500 text-white shadow">
+                            <i class="fa-solid fa-trophy text-sm"></i> Competing
+                        </button>
+                        <button onclick="setActivityType('LISTENING')" id="type-btn-LISTENING" class="p-3 rounded-xl border text-xs font-bold transition flex flex-col items-center gap-1.5 bg-[#181923] border-white/10 text-gray-400 hover:text-white">
+                            <i class="fa-solid fa-headphones text-sm"></i> Listening
+                        </button>
+                        <button onclick="setActivityType('WATCHING')" id="type-btn-WATCHING" class="p-3 rounded-xl border text-xs font-bold transition flex flex-col items-center gap-1.5 bg-[#181923] border-white/10 text-gray-400 hover:text-white">
+                            <i class="fa-solid fa-eye text-sm"></i> Watching
+                        </button>
+                        <button onclick="setActivityType('PLAYING')" id="type-btn-PLAYING" class="p-3 rounded-xl border text-xs font-bold transition flex flex-col items-center gap-1.5 bg-[#181923] border-white/10 text-gray-400 hover:text-white">
+                            <i class="fa-solid fa-gamepad text-sm"></i> Playing
+                        </button>
+                        <button onclick="setActivityType('STREAMING')" id="type-btn-STREAMING" class="p-3 rounded-xl border text-xs font-bold transition flex flex-col items-center gap-1.5 bg-[#181923] border-white/10 text-gray-400 hover:text-white">
+                            <i class="fa-brands fa-twitch text-sm"></i> Streaming
+                        </button>
+                        <button onclick="setActivityType('VR')" id="type-btn-VR" class="p-3 rounded-xl border text-xs font-bold transition flex flex-col items-center gap-1.5 bg-[#181923] border-white/10 text-gray-400 hover:text-white">
+                            <i class="fa-solid fa-vr-cardboard text-sm"></i> Quest VR
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dynamic Form Container -->
+                <div id="activity-dynamic-form" class="space-y-4 bg-[#07080b]/40 p-4 rounded-2xl border border-white/5">
+                </div>
+
+                <!-- Profile Appearance -->
+                <div class="bg-[#07080b]/60 p-4 rounded-2xl border border-white/5 space-y-3">
+                    <label class="block text-xs font-extrabold text-purple-300 flex items-center gap-1.5">
+                        <i class="fa-solid fa-palette"></i> مظهر البروفايل (Profile Theme)
+                    </label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[11px] text-gray-400 mb-1">لون البانر (Accent Color)</label>
+                            <input type="color" id="input-accent-color" value="#5865f2" class="w-full h-10 bg-[#181923] border border-white/10 rounded-xl cursor-pointer p-1" onchange="updateConfig()">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] text-gray-400 mb-1">صورة البانر (Banner URL)</label>
+                            <input type="url" id="input-banner-img" value="https://i.imgur.com/v8F9J2n.png" placeholder="رابط خلفية البروفايل..." class="w-full bg-[#181923] text-white text-xs rounded-xl p-2.5 border border-white/10 focus:outline-none" oninput="updateConfig()">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Elapsed Timer Control -->
+                <div class="bg-[#07080b]/60 p-4 rounded-2xl border border-white/5 space-y-3">
+                    <label class="block text-xs font-extrabold text-amber-400 flex items-center gap-1.5">
+                        <i class="fa-regular fa-clock"></i> التحكم بالوقت والعداد (Elapsed Timer)
+                    </label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[11px] text-gray-400 mb-1">تحديد وقت بدء النشاط</label>
+                            <select id="time-preset" onchange="applyTimePreset()" class="w-full bg-[#181923] text-white text-xs rounded-xl p-2.5 border border-white/10 focus:outline-none">
+                                <option value="now">الآن (البدء المباشر من 00:00)</option>
+                                <option value="15m">منذ 15 دقيقة</option>
+                                <option value="1h">منذ ساعة واحدة</option>
+                                <option value="5h">منذ 5 ساعات</option>
+                                <option value="24h">منذ 24 ساعة (أمس)</option>
+                                <option value="custom">إدخال دقائق مخصصة...</option>
+                            </select>
+                        </div>
+                        <div id="custom-minutes-container" class="hidden">
+                            <label class="block text-[11px] text-gray-400 mb-1">عدد الدقائق السابقة</label>
+                            <input type="number" id="custom-minutes" value="30" min="0" placeholder="مثال: 45" 
+                                class="w-full bg-[#181923] text-white text-xs rounded-xl p-2.5 border border-white/10 focus:outline-none" oninput="applyTimePreset()">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Squad/Party Size -->
+                <div class="bg-[#07080b]/60 p-4 rounded-2xl border border-white/5 space-y-3">
+                    <label class="block text-xs font-extrabold text-emerald-400 flex items-center gap-1.5">
+                        <i class="fa-solid fa-users"></i> عدد أعضاء السكواد (Party Size)
+                    </label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[11px] text-gray-400 mb-1">العدد الحالي</label>
+                            <input type="number" id="party-current" value="4" min="1" max="100" class="w-full bg-[#181923] text-white text-xs rounded-xl p-2.5 border border-white/10" oninput="updateConfig()">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] text-gray-400 mb-1">الحد الأقصى</label>
+                            <input type="number" id="party-max" value="5" min="1" max="100" class="w-full bg-[#181923] text-white text-xs rounded-xl p-2.5 border border-white/10" oninput="updateConfig()">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Media Proxy Asset Inputs -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-white/10">
+                    <div class="space-y-2">
+                        <label class="block text-xs font-extrabold text-gray-300">الصورة الكبيرة (PNG / JPG / GIF من أي موقع)</label>
+                        <input type="url" id="input-large-img" value="https://i.imgur.com/3fJzL1D.gif" placeholder="ضع رابط صورة مباشر..." 
+                            class="w-full bg-[#07080b] text-white text-xs rounded-xl p-3 border border-white/10 focus:outline-none focus:border-indigo-500" oninput="updateConfig()">
+                        <input type="text" id="input-large-txt" value="Presence Studio v2.2.1" placeholder="نص التمرير على الصورة" class="w-full bg-[#07080b] text-gray-400 text-xs rounded-lg p-2 border border-white/5" oninput="updateConfig()">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-xs font-extrabold text-gray-300">الشارة الصغيرة (PNG / JPG / GIF)</label>
+                        <input type="url" id="input-small-img" value="https://i.imgur.com/v8F9J2n.png" placeholder="رابط شارة صغيرة..." 
+                            class="w-full bg-[#07080b] text-white text-xs rounded-xl p-3 border border-white/10 focus:outline-none focus:border-indigo-500" oninput="updateConfig()">
+                        <input type="text" id="input-small-txt" value="Verified Account" placeholder="نص التمرير على الشارة" class="w-full bg-[#07080b] text-gray-400 text-xs rounded-lg p-2 border border-white/5" oninput="updateConfig()">
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-white/10">
+                    <div>
+                        <label class="block text-xs font-extrabold text-gray-300 mb-1">الزر الأول</label>
+                        <input type="text" id="btn1-text" value="سيرفر الديسكورد" placeholder="عنوان الزر" class="w-full bg-[#07080b] text-white text-xs rounded-lg p-2.5 border border-white/10 mb-2" oninput="updateConfig()">
+                        <input type="url" id="btn1-url" value="https://discord.gg" placeholder="رابط الزر" class="w-full bg-[#07080b] text-white text-xs rounded-lg p-2.5 border border-white/10" oninput="updateConfig()">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-extrabold text-gray-300 mb-1">الزر الثاني</label>
+                        <input type="text" id="btn2-text" value="قناة اليوتيوب" placeholder="عنوان الزر" class="w-full bg-[#07080b] text-white text-xs rounded-lg p-2.5 border border-white/10 mb-2" oninput="updateConfig()">
+                        <input type="url" id="btn2-url" value="https://youtube.com" placeholder="رابط الزر" class="w-full bg-[#07080b] text-white text-xs rounded-lg p-2.5 border border-white/10" oninput="updateConfig()">
+                    </div>
+                </div>
+
+                <!-- Live Execution Buttons -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 border-t border-white/10">
+                    <button onclick="startServerPresence()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-3.5 px-6 rounded-xl shadow transition flex items-center justify-center gap-2 text-xs">
+                        <i class="fa-solid fa-play"></i> تفعيل الحالة أونلاين على حسابك
+                    </button>
+                    <button onclick="stopServerPresence()" class="w-full bg-red-600 hover:bg-red-500 text-white font-extrabold py-3.5 px-6 rounded-xl shadow transition flex items-center justify-center gap-2 text-xs">
+                        <i class="fa-solid fa-stop"></i> إيقاف الحالة الحالية
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="text-center py-6 border-t border-white/5 text-xs text-gray-500 font-bold">
+        Powered By TC Team - 7amo
+    </footer>
+
+    <script>
+        let currentActivityType = 'COMPETING';
+        let timerInterval = null;
+        let selectedStartTime = Date.now();
+        let verifiedAccountData = null;
+
+        const activitySchemas = {
+            COMPETING: {
+                title: "بطولة منافسة (Competing)",
+                icon: "fa-solid fa-trophy",
+                badgeBg: "#5865f2",
+                defaultName: "VALORANT Esports",
+                defaultDetails: "Tournament Finals - Grand Match",
+                defaultState: "Competing in Playoffs",
+                showStream: false,
+                isVR: false
+            },
+            LISTENING: {
+                title: "استماع لموسيقى (Listening)",
+                icon: "fa-solid fa-headphones",
+                badgeBg: "#eb459e",
+                defaultName: "Spotify",
+                defaultDetails: "Blinding Lights - The Weeknd",
+                defaultState: "Listening with Friends",
+                showStream: false,
+                isVR: false
+            },
+            WATCHING: {
+                title: "مشاهدة فيديو (Watching)",
+                icon: "fa-solid fa-eye",
+                badgeBg: "#f23f43",
+                defaultName: "YouTube",
+                defaultDetails: "Watching Premier League Live",
+                defaultState: "Streaming in 4K HDR",
+                showStream: false,
+                isVR: false
+            },
+            PLAYING: {
+                title: "لعب لعبة (Playing)",
+                icon: "fa-solid fa-gamepad",
+                badgeBg: "#23a55a",
+                defaultName: "Grand Theft Auto V",
+                defaultDetails: "Online - Los Santos",
+                defaultState: "In a Heist Mission",
+                showStream: false,
+                isVR: false
+            },
+            STREAMING: {
+                title: "بث مباشر (Streaming)",
+                icon: "fa-brands fa-twitch",
+                badgeBg: "#9146FF",
+                defaultName: "Twitch Broadcast",
+                defaultDetails: "LIVE: Ranked Grind to Radiant",
+                defaultState: "Chatting with Viewers",
+                showStream: true,
+                isVR: false
+            },
+            VR: {
+                title: "واقع افتراضي (Quest VR)",
+                icon: "fa-solid fa-vr-cardboard",
+                badgeBg: "#00F0FF",
+                defaultName: "VRChat",
+                defaultDetails: "Exploring The Black Cat World",
+                defaultState: "Connected via Meta Quest Pro",
+                showStream: false,
+                isVR: true
+            }
+        };
+
+        async function verifyAccountToken() {
+            const token = document.getElementById('input-token').value.trim();
+            const indicator = document.getElementById('account-status-indicator');
+
+            if (!token) {
+                indicator.innerHTML = `<span class="w-2 h-2 rounded-full bg-gray-500"></span> أدخل الرمز للفحص`;
+                return;
+            }
+
+            indicator.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span> جاري الفحص...`;
+
+            try {
+                const res = await fetch('/api/verify-token', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token })
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                    verifiedAccountData = data.account;
+                    indicator.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span> متصل: ${data.account.globalName}`;
+
+                    document.getElementById('prev-username').innerText = data.account.globalName;
+                    document.getElementById('prev-tag').innerText = `@${data.account.username}`;
+                    document.getElementById('prev-avatar').src = data.account.avatar;
+
+                    if (data.account.banner) {
+                        document.getElementById('prev-banner').src = data.account.banner;
+                    }
+                    if (data.account.accentColor) {
+                        document.getElementById('input-accent-color').value = data.account.accentColor;
+                        document.getElementById('prev-banner-bg').style.backgroundColor = data.account.accentColor;
+                    }
+
+                    showStatus(true, 'فحص الرمز ناجح 🟢', `تم الاتصال بحسابك الرسمي (${data.account.globalName}) وتم جلب الصور والمعلومات تلقائياً!`);
+                } else {
+                    verifiedAccountData = null;
+                    indicator.innerHTML = `<span class="w-2 h-2 rounded-full bg-red-500"></span> رمز غير صالح`;
+                    showStatus(false, 'فشل الفحص ❌', data.error);
+                }
+            } catch (err) {
+                indicator.innerHTML = `<span class="w-2 h-2 rounded-full bg-red-500"></span> خطأ اتصال`;
+                showStatus(false, 'خطأ اتصال', 'فشل التواصل مع سيرفر الفحص.');
+            }
+        }
+
+        function setActivityType(type) {
+            currentActivityType = type;
+            ['COMPETING', 'LISTENING', 'WATCHING', 'PLAYING', 'STREAMING', 'VR'].forEach(key => {
+                const btn = document.getElementById(`type-btn-${key}`);
+                if (key === type) {
+                    btn.className = 'p-3 rounded-xl border text-xs font-bold transition flex flex-col items-center gap-1.5 bg-indigo-600 border-indigo-500 text-white shadow';
+                } else {
+                    btn.className = 'p-3 rounded-xl border text-xs font-bold transition flex flex-col items-center gap-1.5 bg-[#181923] border-white/10 text-gray-400 hover:text-white';
+                }
+            });
+
+            renderDynamicForm(type);
+            updateConfig();
+        }
+
+        function renderDynamicForm(type) {
+            const schema = activitySchemas[type];
+            const container = document.getElementById('activity-dynamic-form');
+
+            let html = `
+                <div class="flex items-center justify-between pb-2 border-b border-white/10">
+                    <span class="text-xs font-black text-white flex items-center gap-2">
+                        <i class="${schema.icon} text-indigo-400"></i> إعدادات وضع ${schema.title}
+                    </span>
+                    <span class="text-[10px] text-gray-400">مخصص بالكامل</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-extrabold text-gray-300 mb-1.5">اسم النشاط / التطبيق</label>
+                        <input type="text" id="input-name" value="${schema.defaultName}" 
+                            class="w-full bg-[#07080b] text-white text-xs rounded-xl p-3 border border-white/10 focus:outline-none focus:border-indigo-500" oninput="updateConfig()">
+                    </div>
+            `;
+
+            if (schema.showStream) {
+                html += `
+                    <div id="stream-url-container">
+                        <label class="block text-xs font-extrabold text-gray-300 mb-1.5">رابط البث (Twitch / YouTube)</label>
+                        <input type="url" id="input-stream-url" value="https://www.twitch.tv/discord" 
+                            class="w-full bg-[#07080b] text-white text-xs rounded-xl p-3 border border-white/10 focus:outline-none focus:border-indigo-500" oninput="updateConfig()">
+                    </div>
+                `;
+            } else if (schema.isVR) {
+                html += `
+                    <div>
+                        <label class="block text-xs font-extrabold text-cyan-400 mb-1.5">منصة الواقع الافتراضي</label>
+                        <input type="text" value="Meta Quest Pro / VRChat" disabled 
+                            class="w-full bg-[#07080b]/50 text-cyan-300 text-xs rounded-xl p-3 border border-white/10 cursor-not-allowed">
+                    </div>
+                `;
+            } else {
+                html += `<div></div>`;
+            }
+
+            html += `
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-extrabold text-gray-300 mb-1.5">التفاصيل الرئيسية (Details)</label>
+                        <input type="text" id="input-details" value="${schema.defaultDetails}" 
+                            class="w-full bg-[#07080b] text-white text-xs rounded-xl p-3 border border-white/10 focus:outline-none focus:border-indigo-500" oninput="updateConfig()">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-extrabold text-gray-300 mb-1.5">الوصف الفرعي (State)</label>
+                        <input type="text" id="input-state" value="${schema.defaultState}" 
+                            class="w-full bg-[#07080b] text-white text-xs rounded-xl p-3 border border-white/10 focus:outline-none focus:border-indigo-500" oninput="updateConfig()">
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        function applyTimePreset() {
+            const preset = document.getElementById('time-preset').value;
+            const customContainer = document.getElementById('custom-minutes-container');
+
+            if (preset === 'custom') {
+                customContainer.classList.remove('hidden');
+                const mins = parseInt(document.getElementById('custom-minutes').value) || 0;
+                selectedStartTime = Date.now() - (mins * 60 * 1000);
+            } else {
+                customContainer.classList.add('hidden');
+                if (preset === 'now') selectedStartTime = Date.now();
+                if (preset === '15m') selectedStartTime = Date.now() - (15 * 60 * 1000);
+                if (preset === '1h') selectedStartTime = Date.now() - (60 * 60 * 1000);
+                if (preset === '5h') selectedStartTime = Date.now() - (5 * 60 * 60 * 1000);
+                if (preset === '24h') selectedStartTime = Date.now() - (24 * 60 * 60 * 1000);
+            }
+
+            updateTimerDisplay();
+        }
+
+        function updateTimerDisplay() {
+            if (timerInterval) clearInterval(timerInterval);
+
+            timerInterval = setInterval(() => {
+                const now = Date.now();
+                const diff = Math.max(0, Math.floor((now - selectedStartTime) / 1000));
+
+                const hrs = String(Math.floor(diff / 3600)).padStart(2, '0');
+                const mins = String(Math.floor((diff % 3600) / 60)).padStart(2, '0');
+                const secs = String(diff % 60).padStart(2, '0');
+
+                document.getElementById('elapsed-time').innerText = `${hrs}:${mins}:${secs}`;
+            }, 1000);
+        }
+
+        function updateConfig() {
+            const schema = activitySchemas[currentActivityType];
+            const nameEl = document.getElementById('input-name');
+            const detailsEl = document.getElementById('input-details');
+            const stateEl = document.getElementById('input-state');
+
+            const name = nameEl ? nameEl.value.trim() : schema.defaultName;
+            const details = detailsEl ? detailsEl.value.trim() : schema.defaultDetails;
+            const state = stateEl ? stateEl.value.trim() : schema.defaultState;
+
+            const largeImg = document.getElementById('input-large-img').value.trim();
+            const smallImg = document.getElementById('input-small-img').value.trim();
+            const btn1Text = document.getElementById('btn1-text').value.trim();
+            const btn2Text = document.getElementById('btn2-text').value.trim();
+            const partyCurrent = document.getElementById('party-current').value;
+            const partyMax = document.getElementById('party-max').value;
+            const accentColor = document.getElementById('input-accent-color').value;
+            const bannerImg = document.getElementById('input-banner-img').value.trim();
+
+            document.getElementById('prev-banner-bg').style.backgroundColor = accentColor;
+            if (bannerImg) document.getElementById('prev-banner').src = bannerImg;
+
+            document.getElementById('prev-name').innerText = name;
+            document.getElementById('prev-details').innerText = details;
+            document.getElementById('prev-state').innerText = state;
+
+            if (partyCurrent && partyMax) {
+                document.getElementById('prev-party').style.display = 'block';
+                document.getElementById('prev-party').innerText = `Party (${partyCurrent} of ${partyMax})`;
+            } else {
+                document.getElementById('prev-party').style.display = 'none';
+            }
+
+            document.getElementById('prev-large-img').src = largeImg || 'https://i.imgur.com/3fJzL1D.gif';
+            document.getElementById('prev-small-img').src = smallImg || 'https://i.imgur.com/v8F9J2n.png';
+
+            const btn1 = document.getElementById('prev-btn1');
+            const btn2 = document.getElementById('prev-btn2');
+
+            btn1.style.display = btn1Text ? 'block' : 'none';
+            btn1.innerText = btn1Text;
+            btn2.style.display = btn2Text ? 'block' : 'none';
+            btn2.innerText = btn2Text;
+
+            const headerText = document.getElementById('prev-header-text');
+            const badgeIcon = document.getElementById('prev-badge-icon');
+            const statusBadge = document.getElementById('prev-status-badge');
+
+            statusBadge.style.backgroundColor = schema.badgeBg;
+            badgeIcon.className = schema.icon;
+            headerText.innerHTML = `<i class="${schema.icon}" style="color: ${schema.badgeBg};"></i> ${schema.title}`;
+        }
+
+        async function startServerPresence() {
+            const token = document.getElementById('input-token').value.trim();
+            if (!token) {
+                showStatus(false, 'تنبيه', 'يرجى إدخال رمز الحساب أولاً.');
+                return;
+            }
+
+            const nameEl = document.getElementById('input-name');
+            const detailsEl = document.getElementById('input-details');
+            const stateEl = document.getElementById('input-state');
+            const streamUrlEl = document.getElementById('input-stream-url');
+
+            const body = {
+                token: token,
+                type: currentActivityType,
+                name: nameEl ? nameEl.value.trim() : '',
+                streamUrl: streamUrlEl ? streamUrlEl.value.trim() : '',
+                details: detailsEl ? detailsEl.value.trim() : '',
+                state: stateEl ? stateEl.value.trim() : '',
+                largeImg: document.getElementById('input-large-img').value.trim(),
+                largeTxt: document.getElementById('input-large-txt').value.trim(),
+                smallImg: document.getElementById('input-small-img').value.trim(),
+                smallTxt: document.getElementById('input-small-txt').value.trim(),
+                btn1Text: document.getElementById('btn1-text').value.trim(),
+                btn1Url: document.getElementById('btn1-url').value.trim(),
+                btn2Text: document.getElementById('btn2-text').value.trim(),
+                btn2Url: document.getElementById('btn2-url').value.trim(),
+                customStartTime: selectedStartTime,
+                partyCurrent: document.getElementById('party-current').value,
+                partyMax: document.getElementById('party-max').value
+            };
+
+            try {
+                const res = await fetch('/api/start-presence', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                    showStatus(true, 'تم التفعيل أونلاين 🟢', data.message);
+                } else {
+                    showStatus(false, 'خطأ في التفعيل ❌', data.error);
+                }
+            } catch (err) {
+                showStatus(false, 'خطأ اتصال', 'فشل التواصل مع سيرفر الاستضافة.');
+            }
+        }
+
+        async function stopServerPresence() {
+            const token = document.getElementById('input-token').value.trim();
+            if (!token) {
+                showStatus(false, 'تنبيه', 'أدخل الرمز لإيقاف النشاط.');
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/stop-presence', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token })
+                });
+
+                const data = await res.json();
+                if (data.success) {
+                    showStatus(true, 'تم الإيقاف 🛑', data.message);
+                } else {
+                    showStatus(false, 'خطأ', data.error);
+                }
+            } catch (err) {
+                showStatus(false, 'خطأ اتصال', 'فشل التواصل مع السيرفر.');
+            }
+        }
+
+        function showStatus(success, title, desc) {
+            const box = document.getElementById('status-box');
+            const titleEl = document.getElementById('status-title');
+            const descEl = document.getElementById('status-desc');
+
+            box.classList.remove('hidden');
+            titleEl.className = `text-xs font-extrabold block ${success ? 'text-emerald-400' : 'text-red-400'}`;
+            titleEl.innerText = title;
+            descEl.innerText = desc;
+        }
+
+        window.onload = function() {
+            setActivityType('COMPETING');
+            applyTimePreset();
+        };
+    </script>
+</body>
+</html>
